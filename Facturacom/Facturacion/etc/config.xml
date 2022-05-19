@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <facturacom>
+            <facturacom_general>
+                <apikey></apikey>
+                <apisecret></apisecret>
+                <mode>sandbox</mode>
+                <production_url>https://factura.com</production_url>
+                <sandbox_url>https://sandbox.factura.com</sandbox_url>
+            </facturacom_general>
+            <facturacom_facturacion>
+                <serie></serie>
+                <daysoff>10</daysoff>
+            </facturacom_facturacion>
+            <facturacom_formulario>
+                <titulo>Facturación</titulo>
+                <descripcion></descripcion>
+                <color_fondo>#20436f</color_fondo>
+                <color_fuente>#fff</color_fuente>
+                <enviarEmail>1</enviarEmail>
+            </facturacom_formulario>
+        </facturacom>
+        <csp>
+            <policies>
+                <storefront>
+                    <frame-ancestors>
+                        <inline>0</inline>
+                    </frame-ancestors>
+                </storefront>
+            </policies>
+        </csp>
+    </default>
+
+</config>

@@ -1,0 +1,317 @@
+<?php
+$account = $block->getAccountDetails();
+?>
+
+<div id="facturacion_wrapper">
+    <input type="hidden" id="siteurl" value="<?php echo $block->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_WEB, true); ?>">
+    <div class="full-width">
+        <div id="primary" class="content-area">
+            <div id="content" class="site-content" role="main">
+                <div class="home_product">
+                    <div class="steps-container">
+                        <div class="f-welcome-container">
+                            <h1 class="f-page-title"><?php echo $block->getModuleTitle() ?></h1>
+                            <p class="f-page-subtitle"><?php echo $block->getModuleDescription() ?></p>
+                        </div>
+                        <!-- step one starts -->
+                        <div id="step-one" class="step-block">
+                            <div class="step-header" style="background: <?php echo $block->getModuleHeadColor() ?>;">
+                                <h1 style="color:<?php echo $block->getModuleHeadFontColor() ?>;">
+                                    <span>Paso 1/4</span>
+                                    Identificar pedido
+                                </h1>
+                            </div>
+                            <div class="step-content">
+                                <p class="step-instruction">Ingresa tu RFC, n&uacute;mero de pedido y correo electr&oacute;nico para buscar tu pedido.</p>
+                                <form name="f-step-one-form" id="f-step-one-form" action="index/one" method="post">
+                                    <div class="form-group">
+                                        <label for="f-rfc" >RFC*</label>
+                                        <input type="text" class="input-upper f-input" id="f-rfc" name="rfc" value="" placeholder="12 o 13 dígitos" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="f-num-order" >N&uacute;m de pedido*</label>
+                                        <input type="text" class="f-input" id="f-num-order" name="order" value="" placeholder="Sin signo  #"  />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="f-email" >Correo electr&oacute;nico*</label>
+                                        <input type="email" class="f-input" id="f-email" name="email" value="" placeholder="El correo registrado en el pedido"  />
+                                    </div>
+                                    <div class="buttons-right">
+                                        <input type="submit" class="f-submit" id="step-one-button-next" name="f-submit" value="siguiente" />
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </form>
+                            </div>
+                            <div class="loader_content">
+                                <div class="loader">Cargando...</div>
+                            </div>
+                        </div>
+                        <!-- step one ends -->
+
+                        
+                        <!-- step two starts -->
+                        <div id="step-two" class="step-block">
+                            <div class="step-header" style="background:<?php echo $block->getModuleHeadColor() ?>;">
+                                <h1 style="color:<?php echo $block->getModuleHeadFontColor() ?>;">
+                                <span>Paso 2/4</span>
+                                Datos de facturaci&oacute;n
+                              </h1>
+                            </div>
+                            <div class="step-content">
+                              <p class="step-instruction"></p>
+                              <form class="step-form" name="f-step-two-form" id="f-step-two-form" action="index/two" method="post">
+                                <input type="hidden" id="apimethod" name="apimethod" value="create" />
+                                <input type="hidden" id="uid" name="uid" value="" />
+                                <h3>Datos de contacto</h3>
+                                <div class="input-group">
+                                  <label for="general-nombre">Nombre</label>
+                                  <input type="text" class="input-cap f-input f-top" id="general-nombre" name="general-nombre" value="" placeholder="" readonly />
+                                </div>
+                                <div class="input-group">
+                                  <label for="general-apellidos">Apellidos</label>
+                                  <input type="text" class="input-cap f-input f-top" id="general-apellidos" name="general-apellidos" value="" placeholder="" readonly />
+                                </div>
+                                <div class="input-group">
+                                  <label for="general-email">Correo electr&oacute;nico</label>
+                                  <input type="email" class="f-input f-top" id="general-email" name="general-email" value="" placeholder="Email para envío de CFDI" readonly />
+                                </div>
+                                <div class="input-group">
+                                  <label for="fiscal-telefono">Tel&eacute;fono</label>
+                                  <input type="text" class="input-cap f-input f-no-top f-right f-bottom" id="fiscal-telefono" name="fiscal-telefono" value="" placeholder="10 digitos" readonly />
+                                </div>
+                                <h3>Datos fiscales</h3>
+                                <div class="input-group">
+                                  <label for="fiscal-nombre">Razón Social</label>
+                                  <input type="text" class="input-cap f-input f-top" id="fiscal-nombre" name="fiscal-nombre" value="" placeholder="" readonly />
+                                </div>
+                                <div class="input-group">
+                                  <label for="fiscal-rfc">RFC</label>
+                                  <input type="text" class="input-upper f-input f-top" id="fiscal-rfc" name="fiscal-rfc" value="" placeholder="12 o 13 dígitos" readonly />
+                                </div>
+                                <div class="input-group">
+                                  <label for="fiscal-regimen">Re&iacute;gimen Fiscal</label>
+                                  <select id="fiscal-regimen" class="input-cap f-input " name="fiscal-regimen" style="width: 100%;">
+                                    <option value="0">Selecciona una opción</option>
+                                    <?php foreach ($block->getRegimenes() as $key => $value): ?>
+                                        <option value="<?php echo $key ?>"><?php echo $value ?></option>
+                                    <?php endforeach ?>
+                                  </select>
+                                </div>
+
+                                <div class="input-group">
+                                  <label for="fiscal-calle">Calle</label>
+                                  <input type="text" class="input-cap f-input f-no-top" id="fiscal-calle" name="fiscal-calle" value="" placeholder="" readonly />
+                                </div>
+                                <div class="input-group">
+                                  <label for="fiscal-exterior">N&uacute;mero exterior</label>
+                                  <input type="text" class="input-cap f-input f-no-top" id="fiscal-exterior" name="fiscal-exterior" value="" placeholder="" readonly />
+                                </div>
+                                <div class="input-group">
+                                  <label for="fiscal-interior">N&uacute;mero interior</label>
+                                  <input type="text" class="input-cap f-input f-no-top" id="fiscal-interior" name="fiscal-interior" value="" placeholder="" readonly />
+                                </div>
+                                <div class="input-group">
+                                  <label for="fiscal-colonia">Colonia</label>
+                                  <input type="text" class="input-cap f-input f-no-top" id="fiscal-colonia" name="fiscal-colonia" value="" placeholder="" readonly />
+                                </div>
+                                <div class="input-group">
+                                  <label for="fiscal-municipio">Municipio</label>
+                                  <input type="text" class="input-cap f-input f-no-top" id="fiscal-municipio" name="fiscal-municipio" value="" placeholder="" readonly />
+                                </div>
+                                <div class="input-group">
+                                  <label for="fiscal-estado">Estado</label>
+                                  <input type="text" class="input-cap f-input" id="fiscal-estado" name="fiscal-estado" value="" placeholder="" readonly />
+                                </div>
+                                <div class="input-group">
+                                  <label for="fiscal-pais">Pa&iacute;s</label>
+                                  <select id="fiscal-pais" class="input-cap f-input " name="fiscal-pais" style="width: 100%;">
+                                    <option value="0">Selecciona una opción</option>
+                                    <?php foreach ($block->getCountries() as $key => $value): ?>
+                                        <option value="<?php echo $key ?>"><?php echo $value ?></option>
+                                    <?php endforeach ?>
+                                  </select>
+                                </div>
+                                <div class="input-group">
+                                  <label for="fiscal-cp">C&oacute;digo Postal</label>
+                                  <input type="text" class="input-cap f-input f-no-top f-bottom" id="fiscal-cp" name="fiscal-cp" value="" placeholder="" readonly />
+                                </div>
+                                <div class="input-group" id="field-numregidtrib">
+                                    <label for="fiscal-pais">N&uacute;m. de registro trib.</label>
+                                    <input type="text" class="input-cap f-input f-right" id="fiscal-numregidtrib" name="fiscal-numregidtrib" value="" placeholder="" />
+                                </div>
+                                <div class="clearfix"></div>
+                                <div class="buttons-right">
+                                  <input type="button" class="f-submit f-back" id="step-two-button-back" name="f-back" value="Volver" data-f="2" />
+                                  <input type="button" class="f-submit f-edit" id="step-two-button-edit" name="f-edit" value="Editar" data-b="1" />
+                                  <input type="submit" class="f-submit" id="step-two-button-next" name="f-submit" value="siguiente" />
+                                </div>
+                                <div class="f-loading">Cargando...</div>
+                                <div class="clearfix"></div>
+                              </form>
+                            </div>
+                            <div class="loader_content">
+                              <div class="loader">Cargando...</div>
+                            </div>
+                        </div>
+                        <!-- step two ends -->
+
+                    
+                        <!-- step three starts -->
+                        <div id="step-three" class="step-block step-invoice">
+                            <div class="step-header" style="background:<?php echo $block->getModuleHeadColor() ?>;">
+                                <h1 style="color:<?php echo $block->getModuleHeadFontColor() ?>;">
+                                <span>Paso 3/4</span>
+                                Verificar datos de pedido
+                              </h1>
+                            </div>
+                            <div class="step-content">
+                              <h3 class="invoice-title"> <span id="invoice-id">3526321</span></h3>
+                              <h3 class="invoice-title"> <span id="invoice-date">30/06/2015</span></h3>
+                              <div class="invoice-sections">
+
+                                <div class="invoice-emisor">
+                                  <h3 class="invoice-header">Emisor</h3>
+                                  <span id="emisor-nombre" class="ref-data"><b>Razón Social: </b><?php echo $account['razon_social'] ?></span>
+                                  <span id="emisor-rfc" class="ref-data"><b>RFC: </b><?php echo $account['rfc'] ?></span>
+                                  <span id="emisor-regimen" class="ref-data"><b>Régimen Fiscal: </b><?php echo $account['regimen'] ?></span>
+                                  <span id="emisor-direccion" class="ref-data"><b>Calle: </b><?php echo $account['calle'] . ' ' . $account['exterior'] . ' ' . $account['interior'] ?></span>
+                                  <span id="emisor-direccion-zone" class="ref-data"><b>Colonia: </b><?php echo $account['colonia'] . ' ' . $account['codpos'] ?></span>
+                                  <span id="emisor-direccion-zone-city" class="ref-data"><b>Ciudad: </b><?php echo $account['ciudad'] . ' ' . $account['estado'] ?></span>
+                                </div>
+
+                                <div class="invoice-receptor">
+                                  <h3 class="invoice-header">Receptor</h3>
+                                  <span id="receptor-nombre" class="ref-data"></span>
+                                  <span id="receptor-rfc" class="ref-data"></span>
+                                  <span id="receptor-regimen" class="ref-data"></span>
+                                  <span id="receptor-direccion" class="ref-data"></span>
+                                  <span id="receptor-direccion-zone" class="ref-data"></span>
+                                  <span id="receptor-direccion-zone-city" class="ref-data"></span>
+                                </div>
+
+                              <div class="invoice-details">
+                                <h3 class="invoice-header">Detalle del pedido</h3>
+                                <table id="table-details" class="table">
+                                  <thead>
+                                    <tr>
+                                      <td>Producto</td>
+                                      <td>Precio unitario</td>
+                                      <td>Cantidad</td>
+                                      <td>Subtotal</td>
+                                      <td>Descuento</td>
+                                      <td>Impuesto(s)</td>
+                                      <td>Total</td>
+                                    </tr>
+                                  </thead>
+                                  <tbody id="datails-body">
+                                  </tbody>
+                                </table>
+                              </div>
+
+                              <div class="invoice-totals">
+                                <div>
+                                    <div class="title-totals">Subtotal: </div>
+                                    <div class="amount-totals"> <span id="invoice-subtotal"></span></div>
+                                </div>
+                                <div id="td-discount">
+                                    <div class="title-totals">Descuento: </div>
+                                    <div class="amount-totals"> <span id="invoice-discount"></span></div>
+                                </div>
+                                <div id="td-taxes"></div>
+                                <div>
+                                    <div class="title-totals">Total:</div>
+                                    <div class="amount-totals"> <span id="invoice-total"></span></div>
+                                </div>
+                              </div>
+
+                              <!-- Forma de pago -->
+                              <div class="invoice-payment">
+                                <h3 class="invoice-header">Informaci&oacute;n de pago</h3>
+                                <p id="invoice-pmethod">
+                                  <form id="payment-method-form" class="step-form">
+                                    <div class="input-group">
+                                      <label for="select-payment-t">* Forma de pago</label>
+                                      <select id="select-payment-t" class="input-cap f-input ">
+                                        <option value="0">Selecciona una opción</option>
+                                        <?php foreach ($block->getMetodosDePago() as $key => $value): ?>
+                                            <option value="<?php echo $key ?>"><?php echo $value ?></option>
+                                        <?php endforeach ?>
+                                      </select>
+                                    </div>
+
+                                    <div class="clearfix"></div>
+
+                                    <div id="num-cta-box" class="input-group">
+                                      <label for="f-num-cta">&Uacute;ltimos 4 dígitos de tu cuenta o tarjeta</label>
+                                      <input type="text" class="input-cap f-input" id="f-num-cta" name="f-num-cta" value="" placeholder="####" />
+                                    </div>
+
+                                    <div class="clearfix"></div>
+
+                                    <div class="input-group">
+                                        <label for="select-uso">* Uso de CFDI</label>
+                                        <select id="select-uso" class="input-cap f-input ">
+                                          <option value="0">Selecciona una opción</option>
+                                          <?php foreach ($block->getUsosDeCfdi() as $key => $value): ?>
+                                              <option value="<?php echo $key ?>"><?php echo $value ?></option>
+                                          <?php endforeach ?>
+                                        </select>
+                                    </div>
+
+                                    <div class="clearfix"></div>
+
+                                  </form>
+                                </p>
+                              </div>
+
+
+                                <div class="clearfix"></div>
+                                <p class="f-page-subtitle">
+                                    Antes de generar la factura, por favor confirme que los datos estén correctamente. <em>Ya que una vez emitida o generada la factura no podrá realizar cambios a la misma</em>. Agradecemos su preferencia.
+                                </p>
+                                <div class="clearfix"></div>
+                                <div class="buttons-right">
+                                  <input type="button" class="f-submit f-back" id="step-three-button-back" name="f-back" value="Volver" data-f="3" />
+                                  <input type="button" class="btn-success" style="background: #67BA2F !important;border: #67BA2F !important;padding: 13px 20px;margin: 0;margin-left: 15px;font-weight: bold;" id="step-three-button-next" name="f-submit" value="Generar factura" />
+                                </div>
+                                <div class="clearfix"></div>
+                              </div>
+                            </div>
+                            <div class="loader_content">
+                              <div class="loader">Cargando...</div>
+                            </div>
+                          </div>
+                        <!-- step three ends -->
+                        <!-- step four starts -->
+                        <div id="step-four" class="step-block step-invoice">
+                            <div class="step-header" style="background:<?php echo $block->getModuleHeadColor() ?>;">
+                                <h1 style="color:<?php echo $block->getModuleHeadFontColor() ?>;">
+                                    <span>Paso 4/4</span>
+                                    Resultado de facturaci&oacute;n
+                                </h1>
+                            </div>
+                            <div class="step-content">
+                              <div class="buttons_container">
+                                <h1 id="result-msg-title">La factura ha sido generada con éxito.</h1>
+                                <div class="clearfix"></div>
+                                <h4 id="result-email-msg"></h4>
+                                <h4 id="result-msg"></h4>
+                                <a href="#" id="btn-success-pdf" class="btn-success invoice-button invoice-pdf" target="_blank">Descargar PDF</a>
+                                <a href="#" id="btn-success-xml" class="btn-success invoice-button invoice-xml" target="_blank">Descargar XML</a>
+                              </div>
+                              <div id="out-message">
+                                <h3>Ya puedes cerrar &eacute;sta p&aacute;gina o <a href="">seguir navegando</a>.</h3>
+                              </div>
+                            </div>
+                          </div>
+                          <div id="out-message">
+
+                          </div>
+                        </div>
+                        <!-- step four ends -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

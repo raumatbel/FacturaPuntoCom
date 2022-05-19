@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ *
+ * Created By: MageDelight Pvt. Ltd.
+ */
+-->
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+
+
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">invoice_listing.invoice_listing_data_source</item>
+            <item name="deps" xsi:type="string">invoice_listing.invoice_listing_data_source</item>
+        </item>
+        <item name="spinner" xsi:type="string">spinner_columns</item>
+    </argument>
+    
+    <listingToolbar name="listing_top">
+        <bookmark name="bookmarks"/>
+        <columnsControls name="columns_controls"/>
+        <filters name="listing_filters" />
+        <paging name="listing_paging"/>
+    </listingToolbar>
+
+    <dataSource name="invoice_listing_data_source">
+        <argument name="dataProvider" xsi:type="configurableObject">
+            <argument name="class" xsi:type="string">Facturacom\Facturacion\Ui\DataProvider\Invoice\DataProvider</argument>
+            <argument name="name" xsi:type="string">invoice_listing_data_source</argument>
+            <argument name="primaryFieldName" xsi:type="string">UID</argument>
+            <argument name="requestFieldName" xsi:type="string">UID</argument>
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="component" xsi:type="string">Magento_Ui/js/grid/provider</item>
+                    <item name="update_url" xsi:type="url" path="mui/index/render"/>
+                    <item name="storageConfig" xsi:type="array">
+                        <item name="indexField" xsi:type="string">UID</item>
+                    </item>
+                </item>
+            </argument>
+        </argument>
+    </dataSource>
+    
+
+    <columns name="spinner_columns">
+        <column name="NumOrder">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="filter" xsi:type="string">text</item>
+                    <item name="sorting" xsi:type="string">asc</item>
+                    <item name="label" xsi:type="string" translate="true">Pedido</item>
+                </item>
+            </argument>
+        </column>
+        <column name="Folio">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="editor" xsi:type="array">
+                        <item name="editorType" xsi:type="string">text</item>
+                        <item name="validation" xsi:type="array">
+                            <item name="required-entry" xsi:type="boolean">true</item>
+                        </item>
+                    </item>
+                    <item name="label" xsi:type="string" translate="true">Folio</item>
+                </item>
+            </argument>
+        </column>
+        
+        <column name="RazonSocialReceptor">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="editor" xsi:type="array">
+                        <item name="editorType" xsi:type="string">text</item>
+                        <item name="validation" xsi:type="array">
+                            <item name="required-entry" xsi:type="boolean">true</item>
+                        </item>
+                    </item>
+                    <item name="label" xsi:type="string" translate="true">Cliente</item>
+                </item>
+            </argument>
+        </column>
+
+        <column name="Receptor">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                <item name="filter" xsi:type="string">text</item>
+                    <item name="editor" xsi:type="array">
+                        <item name="editorType" xsi:type="string">text</item>
+                        <item name="validation" xsi:type="array">
+                            <item name="required-entry" xsi:type="boolean">true</item>
+                        </item>
+                    </item>
+                    <item name="label" xsi:type="string" translate="true">RFC</item>
+                </item>
+            </argument>
+        </column>
+
+        <column name="Total">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="editor" xsi:type="array">
+                        <item name="editorType" xsi:type="string">text</item>
+                        <item name="validation" xsi:type="array">
+                            <item name="required-entry" xsi:type="boolean">true</item>
+                        </item>
+                    </item>
+                    <item name="label" xsi:type="string" translate="true">Total</item>
+                </item>
+            </argument>
+        </column>
+
+        <column name="FechaTimbrado" class="Magento\Ui\Component\Listing\Columns\Date">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="component" xsi:type="string">Magento_Ui/js/grid/columns/date</item>
+                    <item name="dataType" xsi:type="string">date</item>
+                    <item name="label" xsi:type="string" translate="true">Fecha de timbrado</item>
+                </item>
+            </argument>
+        </column>
+
+         <column name="Status" component="Facturacom_Facturacion/js/grid/columns/select">
+            <argument name="data" xsi:type="array">
+               <item name="options" xsi:type="object">Magento\Sales\Ui\Component\Listing\Column\Status\Options</item>
+               <item name="config" xsi:type="array">
+                  <item name="label" xsi:type="string" translate="true">Estatus</item>
+                  <item name="dataType" xsi:type="string">select</item>
+               </item>
+            </argument>
+         </column>
+
+         <column name="download">
+            <argument name="data" xsi:type="array">
+               <item name="config" xsi:type="array">
+                  <item name="bodyTmpl" xsi:type="string">ui/grid/cells/html</item>
+                  <item name="label" xsi:type="string" translate="true">Descargar archivos</item>
+                  <item name="dataType" xsi:type="string">text</item>
+               </item>
+            </argument>
+         </column>
+
+         <column name="send_email">
+            <argument name="data" xsi:type="array">
+               <item name="config" xsi:type="array">
+                  <item name="bodyTmpl" xsi:type="string">ui/grid/cells/html</item>
+                  <item name="label" xsi:type="string" translate="true">Enviar Correo</item>
+                  <item name="dataType" xsi:type="string">text</item>
+               </item>
+            </argument>
+         </column>
+
+         <column name="cancel" class="Facturacom\Facturacion\Ui\Component\Listing\Column\EditActions">
+            <argument name="data" xsi:type="array">
+               <item name="config" xsi:type="array">
+                  <item name="bodyTmpl" xsi:type="string">ui/grid/cells/html</item>
+                  <item name="label" xsi:type="string" translate="true">Cancelar</item>
+                  <item name="dataType" xsi:type="string">text</item>
+               </item>
+            </argument>
+         </column>
+
+    </columns>
+
+</listing>

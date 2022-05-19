@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column"  xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <update handle="styles"/>
+    <head>
+        <css src="Facturacom_Facturacion::css/facturacom.css" />
+        <script src="Facturacom_Facturacion::js/facturacom.js" />
+    </head>
+    <body>
+        <referenceContainer name="content">
+            <block class="Facturacom\Facturacion\Block\Form" template="Facturacom_Facturacion::formulario.phtml" />
+        </referenceContainer>
+    </body>
+</page>

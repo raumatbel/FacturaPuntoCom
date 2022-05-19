@@ -1,0 +1,198 @@
+
+
+<div id="modal-content">
+
+
+    <input id="cancel-uid" type="hidden" value="">
+
+    <div class="cancel-title">
+        <h3>Está apunto de cancelar el CFDI con el folio <b id="cancel-folio">123</b>, si está seguro por favor seleccione un motivo.</h3>
+    </div>
+    <div class="cancel-container">
+
+        <div class="cancel-field">
+            <div class="cancel-label">
+                <label>Motivo de cancelación</label>
+            </div>
+            <div class="cancel-value">
+                <select id="motivo" class="admin__control-select" name="motivo" placeholder="Selecciona una opción">
+                    <option value="01">01 - Comprobante emitido con errores con relación</option>
+                    <option value="02">02 - Comprobante emitido con errores sin relación</option>
+                    <option value="03">03 - No se llevó a cabo la operación</option>
+                    <option value="04">04 - Operación nominiativa relacionada en una factura global</option>
+                </select>
+            </div>
+        </div>
+        
+        <div class="cancel-field" id="grupoUID">
+            <div class="cancel-label">
+                <label>Escribe el UID o el UUID/folio físcal del CFDI sustituto</label>
+            </div>
+            <div class="cancel-value">
+                <input type="text" class="admin__control-text" id="uid" name="uid" placeholder="Escribe el folio fiscal o uid">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+require([
+    'jquery',
+    'Magento_Ui/js/modal/alert',
+    "Magento_Ui/js/modal/modal"
+],function($, alert, modal){
+    'use strict';
+
+
+    var options = {
+            type: 'popup',
+            responsive: true,
+            innerScroll: true,
+            title: 'Cancelar CFDI',
+            buttons: [{
+                text: 'Cancelar el CFDI',
+                class: 'primary ui-button',
+                click: function () {
+                    this.closeModal();
+                    $.ajax({
+                        url: "<?php echo $block->getUrl('facturacom/invoice/cancel'); ?>",
+                        showLoader: true,   
+                        dataType:'json',
+                        data: { 
+                            uid: $("#cancel-uid").val(),
+                            motivo: $("#motivo").val(),
+                            folioSustituto: $("#uid").val()
+                        },
+                        type: "POST",
+                        success: function(response){    
+                            if(response.response == 'success'){               
+                                alert({
+                                    title: 'CFDI cancelado',
+                                    content: response.message,
+                                    modalClass: 'alert',
+                                    actions: {
+                                        always: function() {
+                                            location.reload();
+                                        }
+                                    }
+                                });
+                                
+                            } else {
+                                alert({
+                                    title: 'No se pudo cancelar su CFDI',
+                                    content: response.message,
+                                    modalClass: 'alert'
+                                });
+                            }
+                        },
+                        error: function(e){
+                            alert({
+                                title: 'Ocurrió un error',
+                                content: 'No se pudo cancelar el cfdi, por favor contacte con soporte',
+                                modalClass: 'alert'
+                            });
+                        }
+                    });
+                }
+            },{
+                text: 'No cancelar',
+                class: 'secondary ui-button',
+                click: function() {
+                    this.closeModal();
+                }
+            }
+            ]
+        };
+
+    var popup = modal(options, $('#modal-content'));
+        
+    $(document).on('click', '.f-cancel-cfdi', function(){ 
+
+        // Establecemos los valores del modal
+        $('#cancel-folio').text($(this).attr("data-folio"));
+        $('#cancel-uid').val($(this).attr("data-uid"))
+
+
+        $('#grupoUID').show();
+        $('#uid').val('');
+        $('#motivo').val('01');
+
+        $('#modal-content').modal('openModal');
+    });
+
+
+    $('#motivo').on('change', function(){
+        if(this.value == "01"){
+            $('#grupoUID').show();
+        } else {
+            $('#grupoUID').hide();
+        }
+    });
+
+
+    $(document).on('click', '.f-send-mail', function(){ 
+        $.ajax({
+            url: "<?php echo $block->getUrl('facturacom/invoice/sendmail'); ?>",
+            showLoader: true,   
+            dataType:'json',
+            data: { uid: $(this).attr("data-uid") },
+            type: "GET",
+            success: function(response){    
+                if(response.response == 'success'){               
+                    alert({
+                        title: 'Correo enviado',
+                        content: response.message,
+                        modalClass: 'alert'
+                    });
+                    
+                } else {
+                    alert({
+                        title: 'Error',
+                        content: response.message,
+                        modalClass: 'alert'
+                    });
+                }
+            },
+            error: function(e){
+                alert({
+                    title: 'Ocurrió un error',
+                    content: 'No se pudo enviar el correo, por favor contacte con soporte',
+                    modalClass: 'alert'
+                });
+            }
+        }); 
+    });
+
+});
+</script>
+
+<style>
+    .admin__control-text, .admin__control-select {
+        width: 100%;
+    }
+
+    .cancel-label label{
+        font-weight: bold;
+        font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    }
+
+    .cancel-value{
+        padding-top: 10px;
+    }
+
+    .cancel-field{
+        padding-top: 30px;
+    }
+    .cancel-row{
+        width: 100%;
+    }
+    .cancel-container {
+        margin: 0px 60px 0px 60px;
+    }
+
+    .cancel-title{
+        padding-top: 20px;
+        text-align: center;
+    }
+</style>

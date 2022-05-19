@@ -1,0 +1,95 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="facturacom" translate="label" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>Factura.com</label>
+            <tab>sales</tab> <!-- Añadimos el grupo a la sección de ventas -->
+            <resource>Facturacom_Facturacion::config</resource>
+            <group id="facturacom_general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+
+                <label>Configuración General</label>
+
+                <field id="apikey" type="text" sortOrder="2" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Api Key</label>
+                    <comment>Puedes obtener este valor en Configuraciones -> API -> Datos de acceso </comment>
+                    <validate>required-entry no-whitespace</validate>
+                </field>
+
+                <field id="apisecret" type="text" sortOrder="3" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Api Secret</label>
+                    <comment>Puedes obtener este valor en Configuraciones -> API -> Datos de acceso </comment>
+                    <validate>required-entry no-whitespace</validate>
+                </field>
+
+                <field id="mode" type="select" sortOrder="4" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Modo de operación</label>
+                    <comment>Seleccione "sandbox" si necesita hacer pruebas, o "production" para timbrar con validez fiscal.</comment>
+                    <source_model>Facturacom\Facturacion\Model\Config\Source\ListMode</source_model>
+                </field>
+
+                <field id="production_url" type="label" sortOrder="5" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Url de producción</label>
+                </field>
+
+                <field id="sandbox_url" type="text" sortOrder="6" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Url de pruebas</label>
+                    <comment>No modificar</comment>
+                    <validate>required-entry validate-url no-whitespace</validate>
+                </field>
+            </group>
+
+
+            <group id="facturacom_facturacion" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+
+                <label>Datos de facturación</label>
+
+                <field id="serie" type="text" sortOrder="2" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Serie</label>
+                    <comment>ID de la serie para facturación</comment>
+                    <validate>required-entry integer no-whitespace</validate>
+                </field>
+
+                <field id="daysoff" type="text" sortOrder="3" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Dias de tolerancia</label>
+                    <comment>Días después de mes para permitir facturar al cliente</comment>
+                    <validate>required-entry integer no-whitespace</validate>
+                </field>
+            </group>
+
+            <group id="facturacom_formulario" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Formulario para el cliente</label>
+
+                <field id="titulo" type="text" sortOrder="2" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Titulo de la sección</label>
+                    <comment>Se mostrará al inicio</comment>
+                </field>
+
+                <field id="descripcion" type="textarea" sortOrder="2" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Descripción de la sección</label>
+                </field>
+
+                <field id="color_fondo" type="text" sortOrder="2" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Color de fondo</label>
+                    <comment>Código de color (Ejemp: #20436f)</comment>
+                    <validate>no-whitespace</validate>
+                </field>
+
+                <field id="color_fuente" type="text" sortOrder="2" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Color de fuente</label>
+                    <comment>Código de color (Ejemp: #20436f)</comment>
+                    <validate>no-whitespace</validate>
+                </field>
+
+                <field id="enviarEmail" type="select" sortOrder="2" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Enviar correo al cliente automaticamente al crear su factura</label>
+                    <comment>Si selecciona "No", podrá mandarlo manualmente si lo desea.</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+
+
+
+            </group>
+        </section>
+    </system>
+</config>

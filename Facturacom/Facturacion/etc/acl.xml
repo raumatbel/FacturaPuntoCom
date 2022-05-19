@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Acl/etc/acl.xsd">
+    <acl>
+        <resources>
+            <resource id="Magento_Backend::admin">
+                <resource id="Magento_Sales::sales">
+                    <resource id="Facturacom_Facturacion::facturacom" title="Facturacom" sortOrder="100">
+                        <resource id="Facturacom_Facturacion::index" title="Index" sortOrder="10" />
+                        <resource id="Facturacom_Facturacion::config" title="Configuracion" sortOrder="10" />
+                    </resource>
+                </resource>
+            </resource>
+        </resources>
+    </acl>
+</config>
